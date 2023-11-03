@@ -50,6 +50,10 @@ void postTransmission()
   digitalWrite(MAX485_RE_NEG, 0);
   digitalWrite(MAX485_DE, 0);
 }
+//Dispense
+int relay = 4;
+
+
 
 void setup() {
   Serial.begin( 9600 );
@@ -69,6 +73,9 @@ void setup() {
   // Callbacks to allow us to set the RS485 Tx/Rx direction
   node.preTransmission(preTransmission);
   node.postTransmission(postTransmission);
+  //Dispense pump
+  pinMode(relay, OUTPUT);
+
 }
 
 void loop() {
@@ -110,6 +117,7 @@ void loop() {
   delay(2000);
   soilmoisture();
   dht();
+  dispense();
 }
 
 // print out the error received from the Modbus library
@@ -179,3 +187,21 @@ void dht(){
   Serial.println();
   delay(2000);
 }
+
+void dispense(){
+  if (Serial.available())
+  {
+    int state = Serial.parseInt();
+    if (soilmoisture <= state) {//target moisture is obtained from raspberry pi ser.write
+    digitalWrite(relay, LOW);
+    Serial.println("Relays ON");
+    delay(1000);
+    }
+    else {
+      digitalWrite(relay, HIGH);
+      Serial.println("Relays OFF");
+    }
+    delay(1000);
+  }
+}
+
