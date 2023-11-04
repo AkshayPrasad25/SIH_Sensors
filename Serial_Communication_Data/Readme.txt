@@ -5,6 +5,6 @@
 5> Expand File System.
 6> Uninstalled python and pyserial.
 7> Reboot Raspberry pi4.
-8> Installed pip and pyserial.
+8> Installed pip and pyserial. pip3 install pyserial --break-system-packages
 9> Created serial_data.csv file.
 10> Run the serial_test.py on Raspberry pi4 (Typed or imported via FTP/GIT).
